@@ -23,4 +23,4 @@ def crawling(video_id):
     length = yt.length
     views = yt.views
 
-    return {"length": length, "views": views}
+    return {"videoId": video_id, "length": length, "views": views}
