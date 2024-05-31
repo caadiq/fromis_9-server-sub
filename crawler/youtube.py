@@ -10,13 +10,13 @@ async def get_details(videos):
     details = []
 
     for video in videos:
-        detail = crawling(video.videoId)
+        detail = scraping(video.videoId)
         details.append(detail)
 
     return details
 
 
-def crawling(video_id):
+def scraping(video_id):
     url = f"https://www.youtube.com/watch?v={video_id}"
     yt = YouTube(url)
 
