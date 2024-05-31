@@ -2,7 +2,7 @@ from typing import List
 
 from fastapi import FastAPI, HTTPException
 
-from crawler.youtube import Videos, get_details
+from scrap.youtube import Videos, get_details
 
 app = FastAPI()
 
