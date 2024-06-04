@@ -2,13 +2,13 @@ import requests
 from bs4 import BeautifulSoup
 
 
-async def parse_page(url):
+async def parse_page(url, start_index=1):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
     items = soup.find_all('li', {'class': 'sc-ee91b503-2 kDyufS'})
 
     result = []
-    for item in items:
+    for i, item in enumerate(items, start=start_index):  # 인덱스를 start_index부터 시작하도록 설정
         title = item.find('a')['title']
         img_tags = item.find_all('img')
         if len(img_tags) >= 2:
@@ -24,7 +24,8 @@ async def parse_page(url):
         is_sold_out = item.find('figcaption', {'class': 'sc-fb17985a-5 dIWEfZ'}).find('strong', {
             'class': 'sc-fb17985a-1 ipzbQw'}) is not None
 
-        result.append({'title': title, 'img_src': img_src, 'url': item_url, 'price': price, 'is_sold_out': is_sold_out})
+        result.append({'index': i, 'title': title, 'img_src': img_src, 'url': item_url, 'price': price,
+                       'is_sold_out': is_sold_out})
 
     return result
 
@@ -32,10 +33,11 @@ async def parse_page(url):
 async def get_items():
     page = 1
     items = []
+    start_index = 1
 
     while True:
         url = f"https://shop.weverse.io/ko/shop/GL_KRW/artists/35/categories/615?page={page}"
-        page_items = await parse_page(url)
+        page_items = await parse_page(url, start_index)
 
         response = requests.get(url)
         soup = BeautifulSoup(response.text, 'html.parser')
@@ -46,5 +48,6 @@ async def get_items():
 
         items.extend(page_items)
         page += 1
+        start_index += len(page_items)  # 다음 페이지의 시작 인덱스를 계산합니다.
 
     return items
