@@ -36,7 +36,6 @@ async def get_items():
         url = f"https://shop.weverse.io/ko/shop/GL_KRW/artists/35/categories/615?page={page}"
         page_items = await parse_page(url)
 
-        # Check if the page has no items
         response = requests.get(url)
         soup = BeautifulSoup(response.text, 'html.parser')
         no_items = soup.find('div', {'class': 'sc-eef0fdb-5 iSLDTU'})
