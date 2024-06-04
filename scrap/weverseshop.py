@@ -19,6 +19,7 @@ async def parse_page(url):
 
         price = item.find('figcaption', {'class': 'sc-fb17985a-5 dIWEfZ'}).find('strong',
                                                                                 {'class': 'sc-d4956143-2 JDTLz'}).text
+        price = int(price.replace('₩', '').replace(',', ''))
 
         is_sold_out = item.find('figcaption', {'class': 'sc-fb17985a-5 dIWEfZ'}).find('strong', {
             'class': 'sc-fb17985a-1 ipzbQw'}) is not None
