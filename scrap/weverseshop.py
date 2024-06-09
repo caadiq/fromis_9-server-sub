@@ -8,7 +8,7 @@ async def parse_page(url, start_index=1):
     items = soup.find_all('li', {'class': 'sc-ee91b503-2 kDyufS'})
 
     result = []
-    for i, item in enumerate(items, start=start_index):  # 인덱스를 start_index부터 시작하도록 설정
+    for i, item in enumerate(items, start=start_index):
         title = item.find('a')['title']
         img_tags = item.find_all('img')
         if len(img_tags) >= 2:
@@ -48,6 +48,6 @@ async def get_items():
 
         items.extend(page_items)
         page += 1
-        start_index += len(page_items)  # 다음 페이지의 시작 인덱스를 계산합니다.
+        start_index += len(page_items)
 
     return items
