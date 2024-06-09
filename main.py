@@ -3,7 +3,8 @@ from typing import List
 from fastapi import FastAPI, HTTPException
 
 from scrap.dcinside import get_posts
-from scrap.weverseshop import get_items
+from scrap.weverse_notice import get_notices
+from scrap.weverse_shop import get_albums
 from scrap.youtube import Videos, get_details
 
 app = FastAPI()
@@ -18,10 +19,19 @@ async def youtube_details(videos: List[Videos]):
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@app.get("/weverseshop")
+@app.get("/weverse/shop")
 async def weverse_shop():
     try:
-        return await get_items()
+        return await get_albums()
+    except Exception as e:
+        print(f"Error occurred while getting details: {e}")
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.get("/weverse/notice")
+async def weverse_notice():
+    try:
+        return await get_notices()
     except Exception as e:
         print(f"Error occurred while getting details: {e}")
         raise HTTPException(status_code=400, detail=str(e))

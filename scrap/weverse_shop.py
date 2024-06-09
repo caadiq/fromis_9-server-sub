@@ -30,7 +30,7 @@ async def parse_page(url, start_index=1):
     return result
 
 
-async def get_items():
+async def get_albums():
     page = 1
     items = []
     start_index = 1
