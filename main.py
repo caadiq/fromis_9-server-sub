@@ -3,6 +3,7 @@ from typing import List
 from fastapi import FastAPI, HTTPException
 
 from scrap.dcinside import get_posts
+from scrap.weverse_live import get_lives
 from scrap.weverse_notice import get_notices
 from scrap.weverse_shop import get_albums
 from scrap.youtube import Videos, get_details
@@ -32,6 +33,15 @@ async def weverse_shop():
 async def weverse_notice():
     try:
         return await get_notices()
+    except Exception as e:
+        print(f"Error occurred while getting details: {e}")
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.get("/weverse/live")
+async def weverse_live():
+    try:
+        return await get_lives()
     except Exception as e:
         print(f"Error occurred while getting details: {e}")
         raise HTTPException(status_code=400, detail=str(e))
