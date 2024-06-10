@@ -1,5 +1,5 @@
 import time
-from datetime import datetime
+from os import environ
 
 from bs4 import BeautifulSoup
 from fastapi import HTTPException
@@ -10,6 +10,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 import config
+
+environ['LANGUAGE'] = 'ko'
 
 
 async def get_notices():
@@ -47,7 +49,7 @@ async def get_notices():
         login_submit_button = driver.find_element(By.XPATH, "//button[@type='submit']")
         login_submit_button.send_keys(Keys.RETURN)
 
-        time.sleep(5)
+        time.sleep(3)
 
         html = driver.page_source
 
@@ -57,22 +59,17 @@ async def get_notices():
 
         for notice in notice_list:
             title = notice.select_one('.NoticeListView_notice_title__YIRBv').text
-            date = notice.select_one('.NoticeListView_notice_date__eC4V1').text
+            date = notice.select_one('.NoticeListView_notice_date__eC4V1').text.replace('.', '-')
             link = "https://weverse.io" + notice.select_one('a')['href']
 
-            postid = link.split('/')[-1]
+            notice_id = int(link.split('/')[-1])
 
-            notice_date = datetime.strptime(date, "%Y.%m.%d")
-
-            current_month = datetime.now().month
-
-            if notice_date.month == current_month:
-                notices.append({
-                    "postId": postid,
-                    "title": title,
-                    "date": date,
-                    "url": link
-                })
+            notices.append({
+                "noticeId": notice_id,
+                "title": title,
+                "date": date,
+                "url": link
+            })
 
     except Exception as e:
         print(f"Error occurred while getting notices: {e}")
