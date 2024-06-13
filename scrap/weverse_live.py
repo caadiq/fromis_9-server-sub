@@ -1,5 +1,6 @@
 import time
 from datetime import datetime
+from os import environ
 
 from bs4 import BeautifulSoup
 from fastapi import HTTPException
@@ -10,6 +11,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 import config
+
+environ['LANGUAGE'] = 'ko'
 
 
 async def get_lives():
