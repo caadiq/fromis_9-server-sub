@@ -1,3 +1,4 @@
+from datetime import datetime
 import time
 from os import environ
 
@@ -59,10 +60,12 @@ async def get_notices():
 
         for notice in notice_list:
             title = notice.select_one('.NoticeListView_notice_title__YIRBv').text
-            date = notice.select_one('.NoticeListView_notice_date__eC4V1').text.replace('.', '-')
+            date_str = notice.select_one('.NoticeListView_notice_date__eC4V1').text
             link = "https://weverse.io" + notice.select_one('a')['href']
 
             notice_id = int(link.split('/')[-1])
+
+            date = datetime.strptime(date_str, '%Y.%m.%d').isoformat()
 
             notices.append({
                 "noticeId": notice_id,
