@@ -24,8 +24,7 @@ async def parse_page(url):
                                                                                 {'class': 'sc-d4956143-2 JDTLz'}).text
         price = int(price.replace('₩', '').replace(',', ''))
 
-        is_sold_out = item.find('figcaption', {'class': 'sc-fb17985a-5 dIWEfZ'}).find('strong', {
-            'class': 'sc-fb17985a-1 ipzbQw'}) is not None
+        is_sold_out = item.find(text="품절") is not None
 
         result.append(
             {'itemId': item_id, 'title': title, 'img': img_src, 'url': url, 'price': price,
@@ -44,9 +43,9 @@ async def get_albums():
 
         response = requests.get(url)
         soup = BeautifulSoup(response.text, 'html.parser')
-        no_items = soup.find('div', {'class': 'sc-eef0fdb-5 iSLDTU'})
+        no_items = soup.find('p', text="등록된 상품이 없습니다.")
 
-        if no_items and "등록된 상품이 없습니다" in no_items.text:
+        if no_items:
             break
 
         items.extend(page_items)
