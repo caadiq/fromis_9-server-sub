@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from pytube import YouTube
+from pytubefix import YouTube
 
 
 class Videos(BaseModel):
@@ -22,5 +22,10 @@ def scraping(video_id):
 
     length = yt.length
     views = yt.views
+
+    if length is None:
+        length = 0
+    if views is None:
+        views = 0
 
     return {"videoId": video_id, "length": length, "views": views}
