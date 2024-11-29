@@ -6,7 +6,7 @@ fromis_9 안드로이드 앱 보조 서버
 
 ## 프로젝트 소개
 
-[프로미스나인 안드로이드 앱](https://github.com/caadiq/fromis_9-android-app) 보조 서버입니다.
+[fromis_9 안드로이드 앱](https://github.com/caadiq/fromis_9-android-app) 보조 서버입니다.
 
 </br>
 
